@@ -4,17 +4,23 @@ version = "0.1.0"
 description = ""
 authors = ["Naomi Helmbold <naomi.helmbold@edu.em-lyon.com>"]
 readme = "README.md"
-packages = [{include = "maincode", from = "src"}]
+packages = [
+    {include = "maincode", from = "src"},
+    {include = "eclyon", from = "src"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 pandas = "^2.2.3"
 fire = "^0.7.0"
 streamlit = "^1.39.0"
+scikit-learn = "^1.5.2"
 
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.1.1"
+graphviz = "^0.20.3"
+matplotlib = "^3.9.2"
 
 [build-system]  
 requires = ["poetry-core"]
