@@ -16,6 +16,7 @@ fire = "^0.7.0"
 streamlit = "^1.39.0"
 scikit-learn = "^1.5.2"
 catboost = "^1.2.7"
+dill = "^0.3.9"
 
 
 [tool.poetry.group.dev.dependencies]
