@@ -14,20 +14,12 @@ path_to_repo = Path(__file__).parent.resolve()
 path_to_data = path_to_repo / 'data' / 'clean_health.csv'
 
 
-def display_bulldozer_img(index):
-    st.subheader('Selected bulldozer')
-    empty1, col, empty2 = st.columns([0.25, 0.5, 0.25])
-    ind = index % len(st.session_state.imgs)
-    img = st.session_state.imgs[ind]
-    col.image(img, use_column_width = 'always')
-    return
-
 
 def display_bulldozer_price(index):
     # compute model prediction
     pred_price = st.session_state.model.predict([st.session_state.X.values[index]])[0]
-    pred_price = int(np.exp(pred_price))
-    true_price = int(np.exp(st.session_state.y[index]))
+    pred_price = int(pred_price)
+    true_price = int(st.session_state.y[index])
 
     # display actual and predicted prices
     col_pred, col_gold = st.columns(2)
@@ -92,7 +84,6 @@ def app():
     options = ['-'] + list(range(1, st.session_state.n_valid + 1))
     index = st.selectbox(label = 'Choose a bulldozer index', options = options, index = 0)
     if index != '-':
-        display_bulldozer_img(index)
         display_bulldozer_price(index)
         display_bulldozer_features(index)
     return
