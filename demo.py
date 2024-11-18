@@ -15,25 +15,31 @@ path_to_data = path_to_repo / 'data' / 'clean_health.csv'
 
 
 
-def display_bulldozer_price(index):
+def display_drinker_status(index):
     # compute model prediction
-    pred_price = st.session_state.model.predict([st.session_state.X.values[index]])[0]
-    pred_price = int(pred_price)
-    true_price = int(st.session_state.y[index])
+    pred = st.session_state.model.predict([st.session_state.X.values[index]])[0]
+    pred  = int(pred )
+    true = int(st.session_state.y[index])
 
     # display actual and predicted prices
     col_pred, col_gold = st.columns(2)
     with col_pred:
-        st.subheader('estimated price')
-        st.write(str(pred_price) + ' Euros')
+        st.subheader('predicted status')
+        if bool(pred) == True: 
+            st.write("Drinker")
+        else: 
+            st.write("Non-drinker")
     with col_gold:
-        st.subheader('real price')
-        st.write(str(true_price) + ' Euros')
+        st.subheader('real status')
+        if bool(true) == True: 
+            st.write("Drinker")
+        else: 
+            st.write("Non-drinker")
     return
 
 
-def display_bulldozer_features(index):
-    st.subheader('Bulldozer features')
+def display_features(index):
+    st.subheader('Individual features')
     feat0, val0, feat1, val1 = st.columns([3.5, 1.5, 3.5, 1.5])
     row = st.session_state.X.values[index]
     for i, feature in enumerate(st.session_state.X.columns):
@@ -80,12 +86,12 @@ def init_session_state():
 
 def app():
     init_session_state()
-    st.title('Choose a bulldozer')
+    st.title('Choose an individual')
     options = ['-'] + list(range(1, st.session_state.n_valid + 1))
-    index = st.selectbox(label = 'Choose a bulldozer index', options = options, index = 0)
+    index = st.selectbox(label = 'Choose an index', options = options, index = 0)
     if index != '-':
-        display_bulldozer_price(index)
-        display_bulldozer_features(index)
+        display_drinker_status(index)
+        display_features(index)
     return
 
 
