@@ -38,11 +38,20 @@ def display_drinker_status(index):
     return
 
 
+
 def display_features(index):
+    display_X = st.session_state.X.copy()
+    if 'gender' in display_X.columns:
+        display_X['gender'] = display_X['gender'].map({True: 'Male', False: 'Female'})
+
+    if 'smoker' in display_X.columns:
+       display_X['smoker'] = display_X['smoker'].map({1: 'Non-smoker', 2: 'Has smoked in the past', 3: 'Smoker'})
+
+
     st.subheader('Individual features')
     feat0, val0, feat1, val1 = st.columns([3.5, 1.5, 3.5, 1.5])
-    row = st.session_state.X.values[index]
-    for i, feature in enumerate(st.session_state.X.columns):
+    row = display_X.values[index]
+    for i, feature in enumerate(display_X.columns):
         ind = i % 2
         if ind == 0:
             with feat0:
@@ -61,10 +70,14 @@ def init_session_state():
     # session state
     if 'loaded' not in st.session_state:
         # validation set given in notebook
-        n_valid = 10000
+        n_valid = 12000
 
         # import raw data
         df_raw = pd.read_csv(path_to_data)
+
+        # map boolean and numerical values to the original values 
+
+        
 
         # preprocess data
         X, y, nas = process_df(df_raw, 'drinker')
@@ -72,7 +85,7 @@ def init_session_state():
 
         # load regression model
         path_to_model = path_to_repo / 'models'
-        model = CatBoostClassifier().load_model(fname = (path_to_model / 'model_full').resolve())
+        model = CatBoostClassifier().load_model(fname = (path_to_model / 'model_tuned').resolve())
 
        
         # store in cache
